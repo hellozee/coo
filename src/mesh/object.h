@@ -1,5 +1,5 @@
-#ifndef OBJECT_H
-#define OBJECT_H
+#ifndef C_OBJECT_H
+#define C_OBJECT_H
 
 #define EPSILON 1e-6
 

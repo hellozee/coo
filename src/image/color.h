@@ -1,5 +1,5 @@
-#ifndef COLOR_H
-#define COLOR_H
+#ifndef C_COLOR_H
+#define C_COLOR_H
 
 typedef struct{
     double r,g,b;

@@ -1,5 +1,5 @@
-#ifndef PLANE_H
-#define PLANE_H
+#ifndef C_PLANE_H
+#define C_PLANE_H
 
 #include "object.h"
 #include "../math/vector.h"

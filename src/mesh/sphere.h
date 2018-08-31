@@ -1,9 +1,9 @@
-#ifndef SPHERE_H
-#define SPHERE_H
+#ifndef C_SPHERE_H
+#define C_SPHERE_H
 
+#include "object.h"
 #include "../math/vector.h"
 #include "../image/color.h"
-#include "object.h"
 
 typedef struct{
     c_vector position;
