@@ -4,9 +4,9 @@
 #include "vector.h"
 
 typedef struct{
-    Vector origin, direction; 
-}Ray;
+    c_vector origin, direction; 
+}c_ray;
 
-Ray new_ray(Vector orig, Vector dir);
+c_ray new_ray(c_vector orig, c_vector dir);
 
 #endif

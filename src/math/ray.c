@@ -1,7 +1,9 @@
 #include "ray.h"
 
-Ray new_ray(Vector orig, Vector dir){
-    Ray r;
+c_ray 
+new_ray(c_vector orig, c_vector dir)
+{
+    c_ray r;
     r.direction = dir;
     r.origin = orig;
     return r;

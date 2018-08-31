@@ -4,9 +4,9 @@
 #include "../math/vector.h"
 
 typedef struct{
-    Vector position, direction, right, down;
-}Camera;
+    c_vector position, direction, right, down;
+}c_camera;
 
-Camera new_camera(Vector pos, Vector dir, Vector rht, Vector dwn);
+c_camera new_camera(c_vector pos, c_vector dir, c_vector rht, c_vector dwn);
 
 #endif

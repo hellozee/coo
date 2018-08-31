@@ -5,16 +5,16 @@
 
 typedef struct{
     double x,y,z;
-}Vector;
+}c_vector;
 
-Vector new_vector(double i, double j, double k);
+c_vector new_vector(double i, double j, double k);
 
-double vector_magnitude(Vector v);
-Vector vector_normalize(Vector v);
-Vector vector_negate(Vector v);
-Vector vector_add(Vector v1, Vector v2);
-Vector vector_scalar_product(double factor, Vector v);
-double vector_dot_product(Vector v1, Vector v2);
-Vector vector_cross_product(Vector v1, Vector v2);
+double vector_magnitude(c_vector v);
+c_vector vector_normalize(c_vector v);
+c_vector vector_negate(c_vector v);
+c_vector vector_add(c_vector v1, c_vector v2);
+c_vector vector_scalar_product(double factor, c_vector v);
+double vector_dot_product(c_vector v1, c_vector v2);
+c_vector vector_cross_product(c_vector v1, c_vector v2);
 
 #endif

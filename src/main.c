@@ -7,19 +7,19 @@
 #include "image/image.h"
 #include "camera/camera.h"
 
-int main(){
+int main()
+{
     printf("rendering..\n");
 
     int dpi = 72;
     int height = 600;
     int width = 800;
 
-    ColorTuple *pixels = (ColorTuple*) malloc(sizeof(ColorTuple) * 
-                            height * width);
+    c_rgb *pixels = (c_rgb*) malloc(sizeof(c_rgb) * height * width);
     
-    Vector i_cap = new_vector(1,0,0);
-    Vector j_cap = new_vector(0,1,0);
-    Vector k_cap = new_vector(0,0,1);
+    c_vector i_cap = new_vector(1,0,0);
+    c_vector j_cap = new_vector(0,1,0);
+    c_vector k_cap = new_vector(0,0,1);
 
     for(int i=0;i<width;i++){
         for(int j=0;j<height;j++){

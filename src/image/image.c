@@ -1,7 +1,9 @@
 #include "image.h"
 
-void save_image(const char *file_name, int width, int height, int dpi,
-        ColorTuple *data)
+void 
+save_image(const char *file_name, 
+           int width, int height, 
+           int dpi, c_rgb *data)
 {
     int k = width * height;
     int s = 4 * k;

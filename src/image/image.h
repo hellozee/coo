@@ -6,9 +6,9 @@
 
 typedef struct{
     double r,g,b;
-}ColorTuple;
+}c_rgb;
 
-void save_image(const char *file_name, int width, int height, int dpi,
-        ColorTuple *data);
+void save_image(const char *file_name, 
+                int width, int height, int dpi, c_rgb *data);
 
 #endif
