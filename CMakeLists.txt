@@ -15,17 +15,21 @@ set(IMAGE_INCLUDE_DIR
     ${CMAKE_CURRENT_SOURCE_DIR}/image)
 set(MATH_INCLUDE_DIR
     ${CMAKE_CURRENT_SOURCE_DIR}/math)
+set(MESH_INCLUDE_DIR
+    ${CMAKE_CURRENT_SOURCE_DIR}/mesh)
 
 set(CMAKE_C_STANDARD_LIBRARIES "-lm")
 
 add_subdirectory(src/camera)
 add_subdirectory(src/image)
 add_subdirectory(src/math)
+add_subdirectory(src/mesh)
 
 include_directories(
     ${CAMERA_INCLUDE_DIR}
     ${IMAGE_INCLUDE_DIR}
     ${MATH_INCLUDE_DIR}
+    ${MESH_INCLUDE_DIR}
 )
 
 add_executable(
@@ -38,4 +42,5 @@ target_link_libraries(
     image
     math
     camera
+    mesh
 )
