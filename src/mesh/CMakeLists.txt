@@ -1,5 +1,7 @@
 set(SOURCES
-    sphere.h sphere.c)
+    object.h object.c
+    sphere.h sphere.c
+    plane.h plane.c)
 
 
 add_library( mesh SHARED ${SOURCES} )
