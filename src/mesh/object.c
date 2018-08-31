@@ -1,7 +1,7 @@
 #include "object.h"
 
-double
-object_find_intersection(const c_object *obj, c_ray ray)
+bool
+fequal(double a, double b)
 {
-    return 0;
+    return fabs(a-b) < EPSILON;
 }
