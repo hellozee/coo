@@ -7,5 +7,6 @@ new_sphere(c_vector pos, double rad, c_material_rgb col)
     s.color = col;
     s.position = pos;
     s.radius = rad;
+    s.object.type = sphere;
     return s;
 }
