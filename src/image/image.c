@@ -1,13 +1,13 @@
 #include "image.h"
 
 void 
-save_image(const char *file_name, 
-           int width, int height, 
+save_image(const char *file_name,
+           unsigned int width, unsigned int height,
            int dpi, c_rgb *data)
 {
-    int k = width * height;
-    int s = 4 * k;
-    int file_size = 54 + s;
+    unsigned int k = width * height;
+    unsigned int s = 4 * k;
+    unsigned int file_size = 54 + s;
 
     double factor = 39.375;
     int m = (int) factor;
@@ -50,7 +50,7 @@ save_image(const char *file_name,
     fwrite(bmp_file_header, 1, 14, save_file);
     fwrite(bmp_info_header, 1, 40, save_file);
 
-    for(int i=0;i<k;i++){
+    for(unsigned int i=0;i<k;i++){
         double red   = data[i].r * 255;
         double green = data[i].g * 255;
         double blue  = data[i].b * 255;

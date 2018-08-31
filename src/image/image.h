@@ -7,6 +7,6 @@
 #include <math.h>
 
 void save_image(const char *file_name, 
-                int width, int height, int dpi, c_rgb *data);
+                unsigned int width, unsigned int height, int dpi, c_rgb *data);
 
 #endif
