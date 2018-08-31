@@ -31,14 +31,7 @@ add_executable(
 
 target_link_libraries(
     coo
-    ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libimage.so
-    ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libmath.so
-    ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libcamera.so
-)
-
-ADD_DEPENDENCIES(
-    coo
     image
-    camera
     math
+    camera
 )
