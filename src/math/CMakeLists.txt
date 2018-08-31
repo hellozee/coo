@@ -4,3 +4,4 @@ set(SOURCES
 
 
 add_library( math SHARED ${SOURCES} )
+set_target_properties( math PROPERTIES OUTPUT_NAME "c_math" )
