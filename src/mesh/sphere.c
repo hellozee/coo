@@ -15,7 +15,8 @@
  * @param col
  * @return
  */
-c_sphere *new_sphere(c_vector pos, double rad, c_material_rgb col)
+c_sphere
+*new_sphere(c_vector pos, double rad, c_material_rgb col)
 {
     c_sphere *s = malloc(sizeof (c_sphere));
     s->color = col;
@@ -48,19 +49,32 @@ sphere_normal_at(c_vector point, c_sphere *sphere)
  */
 double
 sphere_find_intersection(c_ray ray, c_sphere *sphere)
-{                         
+{
+    //oc_vector as in origin to center vector
     c_vector oc_vector = vector_add(sphere->position,vector_negate(ray.origin));
+    double temp = vector_dot_product(oc_vector,ray.direction);
 
-    c_vector cd_vector = vector_add(ray.origin,vector_scalar_product( vector_dot_product(oc_vector,ray.direction),ray.direction));
+    c_vector perpendicular = vector_add(ray.origin,
+                    vector_scalar_product(temp,ray.direction));
 
-    cd_vector = vector_add(sphere->position,vector_negate(cd_vector));
+    double perpendicular_length = vector_magnitude(vector_add(
+                            sphere->position,vector_negate(perpendicular)));
+    if(perpendicular_length > sphere->radius){
+        return -1;
+    }
+    double delta = sqrt(sphere->radius*sphere->radius - pow(perpendicular_length,2));
 
-    double r_square = pow(sphere->radius,2);
-    double c_square = vector_magnitude(oc_vector);
-    double v_square = vector_magnitude(cd_vector);
+    double intersection_one = temp - delta;
+    double intersection_two = temp + delta;
 
-    double discriminant = r_square - c_square + v_square;
+    if(intersection_one >= 0 && intersection_one < intersection_two){
+        return intersection_one;
+    }
 
-    return -1 * discriminant;
+    if(intersection_two >=0 && intersection_two < intersection_one){
+        return intersection_two;
+    }
+
+    return -1;
 }
 

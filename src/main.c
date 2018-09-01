@@ -10,7 +10,7 @@ main()
     unsigned int width = 640;
 
     //creating a new camera for our scene
-    c_vector camera_position = new_vector(3,1.5,2);
+    c_vector camera_position = new_vector(3,1.5,-2);
     c_vector look_at = new_vector(0,0,0);
     c_vector diff_btw = new_vector(camera_position.x - look_at.x,
                                    camera_position.y - look_at.y,
@@ -37,14 +37,14 @@ main()
 
     //scene objects
     c_vector sphere_position = new_vector(0,0,0);
-    c_sphere *scene_sphere = new_sphere(sphere_position,1.0,glossy_green);
+    c_sphere *scene_sphere = new_sphere(sphere_position,1,glossy_green);
 
     c_plane *scene_plane = new_plane(j_cap,-1,flat_maroon);
 
     unsigned int scene_object_count = 2;
     void* scene_objects[] = {
-        scene_sphere,
-        scene_plane
+        scene_plane,
+        scene_sphere
     };
 
     //ray tracer code

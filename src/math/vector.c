@@ -52,7 +52,7 @@ vector_cross_product(c_vector v1, c_vector v2)
 {
     c_vector v;
     v.x = v1.y * v2.z - v1.z * v2.y;
-    v.y = v2.x * v1.z - v1.x * v2.z;
+    v.y = v1.z * v2.x - v1.x * v2.z;
     v.z = v1.x * v2.y - v1.y * v2.x;
     return v;
 }

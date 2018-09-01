@@ -19,6 +19,7 @@ c_plane
 *new_plane(c_vector norm, double dist, c_material_rgb col)
 {
     c_plane *p = malloc(sizeof (c_plane));
+    norm = vector_normalize(norm);
     p->normal = norm;
     p->distance = dist;
     p->color = col;
@@ -44,6 +45,7 @@ plane_find_intersection(c_ray ray, c_plane *plane)
     }
 
     c_vector plane_position = vector_scalar_product(plane->distance,plane->normal);
+    //oc_vector as in origin to center vector
     c_vector oc_vector = vector_add(plane_position,vector_negate(ray.origin));
     double dot_product = vector_dot_product(oc_vector,plane->normal);
 

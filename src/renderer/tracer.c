@@ -115,7 +115,8 @@ render_scene(c_scene *scene)
             c_vector camera_ray_direction = vector_add(scene->scene_camera.direction,
                         vector_add(right_scalar_product,down_scalar_product));
 
-            c_ray camera_ray = new_ray(scene->scene_camera.position,camera_ray_direction);
+            c_ray camera_ray = new_ray(scene->scene_camera.position,
+                                       camera_ray_direction);
             double *intersections = malloc(sizeof (double) * scene->scene_object_count);
 
             for(unsigned int k=0; k<scene->scene_object_count;k++){
@@ -135,7 +136,7 @@ render_scene(c_scene *scene)
                 }
             }
             int first_intersection = index_of_first_intersection(intersections,
-                                                                 scene->scene_object_count);
+                                                    scene->scene_object_count);
             if(first_intersection > -1){
                 c_object *obj = (c_object*) scene->scene_objects[first_intersection];
                 c_material_rgb col;
