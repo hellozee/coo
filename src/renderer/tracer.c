@@ -1,5 +1,15 @@
+/**
+  coo
+  tracer.c
+  Purpose : Provide definitions of the scene class and its methods
+
+  @author Kuntal Majumder ( zee at hellozee dot me )
+**/
 #include "tracer.h"
 
+/**
+ * @brief c_scene data structure for storing the scene
+ */
 struct c_scene{
     void **scene_objects;
     unsigned int scene_object_count;
@@ -8,6 +18,15 @@ struct c_scene{
     c_camera scene_camera;
 };
 
+/**
+ * @brief new_scene creates a new scene object returns the pointer to it
+ * @param objects
+ * @param object_count
+ * @param lights
+ * @param light_count
+ * @param camera
+ * @return
+ */
 c_scene*
 new_scene(void **objects, unsigned int object_count, c_light *lights,
            unsigned int light_count, c_camera camera)
@@ -21,6 +40,13 @@ new_scene(void **objects, unsigned int object_count, c_light *lights,
     return t;
 }
 
+/**
+ * @brief index_of_first_intersection calculates the minimum index of intersection
+ * among the given objects
+ * @param intersections
+ * @param size
+ * @return
+ */
 int
 index_of_first_intersection(double *intersections, unsigned int size)
 {
@@ -51,6 +77,12 @@ index_of_first_intersection(double *intersections, unsigned int size)
     return return_index;
 }
 
+/**
+ * @brief render_scene ray traces the given scene and returns a pointer to the
+ * genererated pixels array
+ * @param scene
+ * @return
+ */
 c_rgb*
 render_scene(c_scene *scene)
 {

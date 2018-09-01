@@ -1,3 +1,11 @@
+/**
+  coo
+  tracer.h
+  Purpose : Provide prototype of the scene class and its methods
+
+  @author Kuntal Majumder ( zee at hellozee dot me )
+**/
+
 #ifndef COO_RENDERER_H
 #define COO_RENDERER_H
 
