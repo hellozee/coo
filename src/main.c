@@ -17,8 +17,8 @@ main()
     printf("rendering..\n");
 
     int dpi = 72;
-    unsigned int height = 600;
-    unsigned int width = 800;
+    unsigned int height = 360;
+    unsigned int width = 480;
 
     double aspect_ratio = (double) width/ (double) height;
 
@@ -107,9 +107,7 @@ main()
                 }
             }
 
-            pixels[j*width + i].r = 1.0;
-            pixels[j*width + i].g = 0.5;
-            pixels[j*width + i].b = 0.5;
+            pixels[j*width + i] = flat_maroon.color;
         }
     }
 
