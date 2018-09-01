@@ -24,16 +24,31 @@ new_scene(void **objects, unsigned int object_count, c_light *lights,
 int
 index_of_first_intersection(double *intersections, unsigned int size)
 {
-    double min = INT_MAX;
-    int minimum_index = -1;
+    // return the index of the winning intersection
+    int return_index = -1;
 
-    for(unsigned int i=0;i<size;i++){
-        if(intersections[i] > 0 && intersections[i] < min){
-            minimum_index = (int) i;
+    // otherwise there is more than one intersection
+    // first find the maximum value
+
+    double max = 0;
+    for (unsigned int i = 0; i < size; i++) {
+        if (intersections[i] > max) {
+            max = intersections[i];
         }
     }
 
-    return minimum_index;
+    // then starting from the maximum value find the minimum positive value
+    if (max > 0) {
+        // we only want positive intersections
+        for (unsigned int i = 0; i < size; i++) {
+            if (intersections[i] > 0 && intersections[i] <= max) {
+                max = intersections[i];
+                return_index = (int) i;
+            }
+        }
+    }
+
+    return return_index;
 }
 
 c_rgb*
@@ -42,7 +57,6 @@ render_scene(c_scene *scene)
     double x_amount, y_amount;
     unsigned int width = scene->scene_camera.width;
     unsigned int height = scene->scene_camera.height;
-    c_material_rgb flat_maroon = new_material_rgb_color(0.5,0.25,0.25,0);
     double aspect_ratio = (double) width/ (double) height;
     c_rgb *pixels = (c_rgb*) malloc(sizeof(c_rgb) * height * width);
 
@@ -89,10 +103,29 @@ render_scene(c_scene *scene)
                 }
             }
 
+
             int first_intersection = index_of_first_intersection(intersections,
                                                                  scene->scene_object_count);
 
-            pixels[j*width + i] = flat_maroon.color;
+            if(first_intersection > -1){
+                c_object *obj = (c_object*) scene->scene_objects[first_intersection];
+                c_material_rgb col;
+                switch (obj->type) {
+                case plane:{
+                    c_plane* p = (c_plane*) scene->scene_objects[first_intersection];
+                    col = p->color;
+                    break;
+                }
+                case sphere:{
+                    c_sphere* s = (c_sphere*) scene->scene_objects[first_intersection];
+                    col = s->color;
+                    break;
+                }
+                }
+                pixels[j*width + i] = col.color;
+            }else{
+                pixels[j*width + i] = new_rgb_color(0,0,0);
+            }
         }
     }
 
