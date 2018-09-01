@@ -26,6 +26,10 @@ static const c_material_rgb flat_black = {{0.0,0.0,0.0},0.0};
 
 c_material_rgb new_material_rgb_color(double red, double green, double blue,
                                       double spec);
-
+double color_brightness(c_material_rgb col);
+c_material_rgb color_multiply_scalar(double factor, c_material_rgb col);
+c_material_rgb color_add(c_material_rgb c1, c_material_rgb c2);
+c_material_rgb color_multipy(c_material_rgb c1, c_material_rgb c2);
+c_material_rgb color_average(c_material_rgb c1, c_material_rgb c2);
 #endif
 
