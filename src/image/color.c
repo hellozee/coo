@@ -1,5 +1,20 @@
+/**
+  coo
+  color.c
+  Purpose : Provide definitions of the various color classes and their methods
+
+  @author Kuntal Majumder ( zee at hellozee dot me )
+**/
+
 #include "color.h"
 
+/**
+ * @brief new_rgb_color creates a new RGB color object returns it
+ * @param red
+ * @param green
+ * @param blue
+ * @return
+ */
 c_rgb
 new_rgb_color(double red, double green, double blue)
 {
@@ -10,6 +25,14 @@ new_rgb_color(double red, double green, double blue)
     return col;
 }
 
+/**
+ * @brief new_material_rgb_color creates a new RGB material object returns it
+ * @param red
+ * @param green
+ * @param blue
+ * @param spec
+ * @return
+ */
 c_material_rgb
 new_material_rgb_color(double red, double green, double blue, double spec)
 {

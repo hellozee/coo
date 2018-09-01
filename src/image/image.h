@@ -1,3 +1,11 @@
+/**
+  coo
+  image.h
+  Purpose : Provide definitions for manipulating bitmaps
+
+  @author Kuntal Majumder ( zee at hellozee dot me )
+**/
+
 #ifndef COO_IMAGE_H
 #define COO_IMAGE_H
 

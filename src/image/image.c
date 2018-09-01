@@ -1,5 +1,20 @@
+/**
+  coo
+  image.c
+  Purpose : Provide definitions for the functions to manipulate bitmaps
+
+  @author Kuntal Majumder ( zee at hellozee dot me )
+**/
 #include "image.h"
 
+/**
+ * @brief save_image saves an array of pixels into a bitmap
+ * @param file_name
+ * @param width
+ * @param height
+ * @param dpi
+ * @param data
+ */
 void 
 save_image(const char *file_name,
            unsigned int width, unsigned int height,
@@ -13,6 +28,8 @@ save_image(const char *file_name,
     int m = (int) factor;
 
     int ppm = dpi * m;
+
+    //headers required for storing a bitmap
     unsigned char bmp_file_header[14] = {'B', 'M', 0,0,0,0, 0,0,0,0, 54,0,0,0};
     unsigned char bmp_info_header[40] = {40,0,0,0, 0,0,0,0, 0,0,0,0, 1,0,24,0};
 
@@ -56,9 +73,9 @@ save_image(const char *file_name,
         double blue  = data[i].b * 255;
         
         unsigned char color[3];
-        color[0] = (int) floor(blue);
-        color[1] = (int) floor(green);
-        color[2] = (int) floor(red);
+        color[0] = (unsigned char) (int) (float) blue;
+        color[1] = (unsigned char) (int) (float) green;
+        color[2] = (unsigned char) (int) (float) red;
         
         fwrite(color, 1, 3, save_file);
     }
