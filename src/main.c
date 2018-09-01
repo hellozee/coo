@@ -11,13 +11,16 @@
 #include "mesh/sphere.h"
 #include "mesh/plane.h"
 
-int main()
+int
+main()
 {
     printf("rendering..\n");
 
     int dpi = 72;
     unsigned int height = 600;
     unsigned int width = 800;
+
+    double aspect_ratio = (double) width/ (double) height;
 
     c_rgb *pixels = (c_rgb*) malloc(sizeof(c_rgb) * height * width);
     
@@ -49,12 +52,61 @@ int main()
     c_light scene_light = new_light(light_position,flat_white);
 
     c_vector sphere_position = new_vector(0,0,0);
-    c_sphere scene_sphere = new_sphere(sphere_position,1.0,glossy_green);
+    c_sphere *scene_sphere = new_sphere(sphere_position,1.0,glossy_green);
 
-    c_plane scene_plane = new_plane(j_cap,-1,flat_maroon);
+    c_plane *scene_plane = new_plane(j_cap,-1,flat_maroon);
+
+    unsigned int scene_object_count = 2;
+    void* scene_objects[] = {
+        scene_sphere,
+        scene_plane
+    };
+
+    double x_amount, y_amount;
 
     for(unsigned int i=0;i<width;i++){
         for(unsigned int j=0;j<height;j++){
+
+            if(width > height){
+                x_amount = (i + 0.5)/width * aspect_ratio -
+                            ((width - height)/(double) height)/2;
+                y_amount = ((height - j) + 0.5)/height;
+            }else if(width < height){
+                x_amount = (i + 0.5)/width;
+                y_amount = (((height - j) + 0.5)/height)/aspect_ratio -
+                            ((height - width)/(double) width)/2;
+            }else{
+                x_amount = (i + 0.5)/width;
+                y_amount = ((height - j) + 0.5)/height;
+            }
+
+            c_vector right_scalar_product = vector_scalar_product(x_amount - 0.5,
+                                                                  scene_camera.right);
+            c_vector down_scalar_product = vector_scalar_product(y_amount - 0.5,
+                                                                 scene_camera.down);
+            c_vector camera_ray_direction = vector_add(scene_camera.direction,
+                        vector_add(right_scalar_product,down_scalar_product));
+
+            c_ray camera_ray = new_ray(scene_camera.position,camera_ray_direction);
+            double *intersections = malloc(sizeof (double) * scene_object_count);
+
+            for(unsigned int k=0; k<scene_object_count;k++){
+                c_object *obj = (c_object*) scene_objects[k];
+
+                switch (obj->type) {
+                case plane:{
+                    c_plane* p = (c_plane*) scene_objects[k];
+                    intersections[k] = plane_find_intersection(camera_ray,p);
+                    break;
+                }
+                case sphere:{
+                    c_sphere* s = (c_sphere*) scene_objects[k];
+                    intersections[k] = sphere_find_intersection(camera_ray,s);
+                    break;
+                }
+                }
+            }
+
             pixels[j*width + i].r = 1.0;
             pixels[j*width + i].g = 0.5;
             pixels[j*width + i].b = 0.5;
