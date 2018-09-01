@@ -9,6 +9,10 @@ typedef struct{
 
 c_vector new_vector(double i, double j, double k);
 
+static const c_vector i_cap = {1,0,0};
+static const c_vector j_cap = {0,1,0};
+static const c_vector k_cap = {0,0,1};
+
 double vector_magnitude(c_vector v);
 c_vector vector_normalize(c_vector v);
 c_vector vector_negate(c_vector v);

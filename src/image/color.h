@@ -20,6 +20,10 @@ typedef struct{
     double specular;
 }c_material_rgb;
 
+static const c_material_rgb flat_white = {{1.0,1.0,1.0},0.0};
+static const c_material_rgb flat_gray  = {{0.5,0.5,0.5},0.0};
+static const c_material_rgb flat_black = {{0.0,0.0,0.0},0.0};
+
 c_material_rgb new_material_rgb_color(double red, double green, double blue,
                                       double spec);
 

@@ -1,7 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-
 #include "renderer/tracer.h"
 
 int
@@ -12,10 +8,6 @@ main()
     int dpi = 72;
     unsigned int height = 360;
     unsigned int width = 480;
-    
-    c_vector i_cap = new_vector(1,0,0);
-    c_vector j_cap = new_vector(0,1,0);
-    c_vector k_cap = new_vector(0,0,1);
 
     //creating a new camera for our scene
     c_vector camera_position = new_vector(3,1.5,-2);
@@ -33,18 +25,15 @@ main()
                                        camera_right,camera_down, width, height);
 
     //some dummy materials for the scene
-    c_material_rgb flat_white = new_material_rgb_color(1.0,1.0,1.0,0);
     c_material_rgb glossy_green = new_material_rgb_color(0.5,1.0,0.5,0.3);
-    c_material_rgb flat_gray = new_material_rgb_color(0.5,0.5,0.5,0);
-    c_material_rgb flat_black = new_material_rgb_color(0,0,0,0);
     c_material_rgb flat_maroon = new_material_rgb_color(0.5,0.25,0.25,0);
 
     //scene lights
     c_vector light_position = new_vector(-7,10,-10);
     c_light scene_light = new_light(light_position,flat_white);
 
-    unsigned int light_count = 1;
-    c_light lights[] = {scene_light};
+    unsigned int scene_light_count = 1;
+    c_light scene_lights[] = {scene_light};
 
     //scene objects
     c_vector sphere_position = new_vector(0,0,0);
@@ -59,8 +48,8 @@ main()
     };
 
     //ray tracer code
-    c_scene *scene = new_scene(scene_objects,scene_object_count,lights,
-                               light_count,scene_camera);
+    c_scene *scene = new_scene(scene_objects,scene_object_count,scene_lights,
+                               scene_light_count,scene_camera);
     c_rgb *rendered_pixels = render_scene(scene);
     save_image("test.bmp",width,height,dpi,rendered_pixels);
     return 0;
