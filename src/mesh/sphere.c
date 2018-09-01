@@ -1,6 +1,6 @@
 /**
   coo
-  object.c
+  sphere.c
   Purpose : Provide definitions of the sphere class and its methods
 
   @author Kuntal Majumder ( zee at hellozee dot me )
