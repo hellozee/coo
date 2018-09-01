@@ -1,6 +1,8 @@
 #ifndef COO_RENDERER_H
 #define COO_RENDERER_H
 
+#include <limits.h>
+
 #include "../math/vector.h"
 #include "../math/ray.h"
 #include "../image/image.h"

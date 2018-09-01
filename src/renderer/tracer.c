@@ -21,6 +21,21 @@ new_scene(void **objects, unsigned int object_count, c_light *lights,
     return t;
 }
 
+int
+index_of_first_intersection(double *intersections, unsigned int size)
+{
+    double min = INT_MAX;
+    int minimum_index = -1;
+
+    for(unsigned int i=0;i<size;i++){
+        if(intersections[i] > 0 && intersections[i] < min){
+            minimum_index = (int) i;
+        }
+    }
+
+    return minimum_index;
+}
+
 c_rgb*
 render_scene(c_scene *scene)
 {
@@ -73,6 +88,9 @@ render_scene(c_scene *scene)
                 }
                 }
             }
+
+            int first_intersection = index_of_first_intersection(intersections,
+                                                                 scene->scene_object_count);
 
             pixels[j*width + i] = flat_maroon.color;
         }
