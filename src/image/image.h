@@ -1,5 +1,5 @@
-#ifndef C_IMAGE_H
-#define C_IMAGE_H
+#ifndef COO_IMAGE_H
+#define COO_IMAGE_H
 
 #include "color.h"
 

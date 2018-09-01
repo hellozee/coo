@@ -1,5 +1,5 @@
-#ifndef C_VECTOR_H
-#define C_VECTOR_H
+#ifndef COO_VECTOR_H
+#define COO_VECTOR_H
 
 #include <math.h>
 

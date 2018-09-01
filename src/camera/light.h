@@ -1,5 +1,5 @@
-#ifndef C_LIGHT_H
-#define C_LIGHT_H
+#ifndef COO_LIGHT_H
+#define COO_LIGHT_H
 
 #include "../math/vector.h"
 #include "../image/color.h"

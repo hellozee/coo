@@ -1,5 +1,5 @@
-#ifndef C_CAMERA_H
-#define C_CAMERA_H
+#ifndef COO_CAMERA_H
+#define COO_CAMERA_H
 
 #include "../math/vector.h"
 

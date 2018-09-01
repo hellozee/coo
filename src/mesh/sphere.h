@@ -1,5 +1,5 @@
-#ifndef C_SPHERE_H
-#define C_SPHERE_H
+#ifndef COO_SPHERE_H
+#define COO_SPHERE_H
 
 #include "object.h"
 #include "../math/vector.h"

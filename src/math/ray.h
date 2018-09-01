@@ -1,5 +1,5 @@
-#ifndef C_RAY_H
-#define C_RAY_H
+#ifndef COO_RAY_H
+#define COO_RAY_H
 
 #include "vector.h"
 
