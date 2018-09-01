@@ -4,10 +4,12 @@
 #define EPSILON 1e-6
 
 #include "../math/ray.h"
+
 #include <stdbool.h>
+#include <stdlib.h>
 
 enum c_object_type{
-    sphere,
+    sphere = 0,
     plane
 };
 
