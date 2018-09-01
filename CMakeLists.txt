@@ -1,9 +1,11 @@
 cmake_minimum_required(VERSION 3.0)
 project(coo)
 set( CMAKE_BUILD_TYPE Debug)
-set( CMAKE_POSITION_INDEPENDENT_CODE ON )
 set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib )
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )
+set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib )
+
+set( LIBRARY_TYPE SHARED)
 
 if ( CMAKE_COMPILER_IS_GNUCC )
     set(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -Wall -Wextra")
@@ -45,9 +47,9 @@ add_dependencies(
 
 target_link_libraries(
     coo
-    c_image
-    c_math
-    c_camera
-    c_mesh
+    coo_image
+    coo_math
+    coo_camera
+    coo_mesh
 )
 
