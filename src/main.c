@@ -28,6 +28,7 @@ main()
     c_vector j_cap = new_vector(0,1,0);
     c_vector k_cap = new_vector(0,0,1);
 
+    //creating a new camera for our scene
     c_vector camera_position = new_vector(3,1.5,-2);
     c_vector look_at = new_vector(0,0,0);
     c_vector diff_btw = new_vector(camera_position.x - look_at.x,
@@ -42,15 +43,18 @@ main()
     c_camera scene_camera = new_camera(camera_position,camera_direction,
                                        camera_right,camera_down);
 
+    //some dummy materials for the scene
     c_material_rgb flat_white = new_material_rgb_color(1.0,1.0,1.0,0);
     c_material_rgb glossy_green = new_material_rgb_color(0.5,1.0,0.5,0.3);
     c_material_rgb flat_gray = new_material_rgb_color(0.5,0.5,0.5,0);
     c_material_rgb flat_black = new_material_rgb_color(0,0,0,0);
     c_material_rgb flat_maroon = new_material_rgb_color(0.5,0.25,0.25,0);
 
+    //scene lights
     c_vector light_position = new_vector(-7,10,-10);
     c_light scene_light = new_light(light_position,flat_white);
 
+    //scene objects
     c_vector sphere_position = new_vector(0,0,0);
     c_sphere *scene_sphere = new_sphere(sphere_position,1.0,glossy_green);
 
@@ -62,6 +66,7 @@ main()
         scene_plane
     };
 
+    //ray tracer code
     double x_amount, y_amount;
 
     for(unsigned int i=0;i<width;i++){
