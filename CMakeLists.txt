@@ -11,10 +11,11 @@ if ( CMAKE_COMPILER_IS_GNUCC )
     set(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -Wall -Wextra")
 endif()
 
-set( CAMERA_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/camera)
-set( IMAGE_INCLUDE_DIR  ${CMAKE_CURRENT_SOURCE_DIR}/image)
-set( MATH_INCLUDE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/math)
-set( MESH_INCLUDE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/mesh)
+set( CAMERA_INCLUDE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/camera )
+set( IMAGE_INCLUDE_DIR    ${CMAKE_CURRENT_SOURCE_DIR}/image )
+set( MATH_INCLUDE_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/math )
+set( MESH_INCLUDE_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/mesh )
+set( RENDERER_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/renderer )
 
 link_directories( ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} )
 
@@ -24,12 +25,14 @@ add_subdirectory(src/camera)
 add_subdirectory(src/image)
 add_subdirectory(src/math)
 add_subdirectory(src/mesh)
+add_subdirectory(src/renderer)
 
 include_directories(
     ${CAMERA_INCLUDE_DIR}
     ${IMAGE_INCLUDE_DIR}
     ${MATH_INCLUDE_DIR}
     ${MESH_INCLUDE_DIR}
+    ${RENDERER_INCLUDE_DIR}
 )
 
 add_executable(
@@ -43,6 +46,7 @@ add_dependencies(
     math
     camera
     mesh
+    renderer
 )
 
 target_link_libraries(
@@ -51,5 +55,6 @@ target_link_libraries(
     coo_math
     coo_camera
     coo_mesh
+    coo_renderer
 )
 
