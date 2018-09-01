@@ -134,11 +134,8 @@ render_scene(c_scene *scene)
                 }
                 }
             }
-
-
             int first_intersection = index_of_first_intersection(intersections,
                                                                  scene->scene_object_count);
-
             if(first_intersection > -1){
                 c_object *obj = (c_object*) scene->scene_objects[first_intersection];
                 c_material_rgb col;

@@ -43,10 +43,9 @@ plane_find_intersection(c_ray ray, c_plane *plane)
         return -1;
     }
 
-    c_vector scalar_product = vector_negate(
-                vector_scalar_product(plane->distance,plane->normal));
-    double dot_product = vector_dot_product(
-                plane->normal,vector_add(ray.origin,scalar_product));
+    c_vector plane_position = vector_scalar_product(plane->distance,plane->normal);
+    c_vector oc_vector = vector_add(plane_position,vector_negate(ray.origin));
+    double dot_product = vector_dot_product(oc_vector,plane->normal);
 
-    return -1 * dot_product/does_intersect;
+    return dot_product/does_intersect;
 }

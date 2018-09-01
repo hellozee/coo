@@ -48,28 +48,19 @@ sphere_normal_at(c_vector point, c_sphere *sphere)
  */
 double
 sphere_find_intersection(c_ray ray, c_sphere *sphere)
-{
-    double a = 1; //normalized
-    double b = (ray.origin.x - sphere->position.x) * ray.direction.x +
-            (ray.origin.y - sphere->position.y) * ray.direction.y +
-            (ray.origin.z - sphere->position.z) * ray.direction.z;
-    b *= 2;
+{                         
+    c_vector oc_vector = vector_add(sphere->position,vector_negate(ray.origin));
 
-    double c = pow(ray.origin.x - sphere->position.x, 2) +
-            pow(ray.origin.y - sphere->position.y, 2) +
-            pow(ray.origin.z - sphere->position.z, 2) - pow(sphere->radius, 2);
+    c_vector cd_vector = vector_add(ray.origin,vector_scalar_product( vector_dot_product(oc_vector,ray.direction),ray.direction));
 
-    double discriminant = b*b - 4*a*c;
+    cd_vector = vector_add(sphere->position,vector_negate(cd_vector));
 
-    if( discriminant > 0 ){
-        double first_root = (-1*b - sqrt(discriminant))/2*a;
-        double second_root = (-1*b + sqrt(discriminant))/2*a;
-        if(first_root > 0){
-            return first_root;
-        }else{
-            return second_root;
-        }
-    }
-    return -1;
+    double r_square = pow(sphere->radius,2);
+    double c_square = vector_magnitude(oc_vector);
+    double v_square = vector_magnitude(cd_vector);
+
+    double discriminant = r_square - c_square + v_square;
+
+    return -1 * discriminant;
 }
 

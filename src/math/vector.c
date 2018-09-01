@@ -44,7 +44,7 @@ vector_scalar_product(double factor, c_vector v)
 double 
 vector_dot_product(c_vector v1, c_vector v2)
 {
-    return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+    return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
 }
 
 c_vector 
@@ -53,6 +53,6 @@ vector_cross_product(c_vector v1, c_vector v2)
     c_vector v;
     v.x = v1.y * v2.z - v1.z * v2.y;
     v.y = v2.x * v1.z - v1.x * v2.z;
-    v.z = v1.x * v2.z - v1.z * v2.x;
+    v.z = v1.x * v2.y - v1.y * v2.x;
     return v;
 }

@@ -42,19 +42,19 @@ add_executable(
 
 add_dependencies(
     coo
+    renderer
     image
     math
     camera
     mesh
-    renderer
 )
 
 target_link_libraries(
     coo
+    coo_renderer
     coo_image
     coo_math
     coo_camera
     coo_mesh
-    coo_renderer
 )
 
