@@ -1,3 +1,10 @@
+/**
+  coo
+  object.c
+  Purpose : Provide prototype of the plane class and its methods
+
+  @author Kuntal Majumder ( zee at hellozee dot me )
+**/
 #ifndef COO_PLANE_H
 #define COO_PLANE_H
 

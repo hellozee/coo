@@ -1,5 +1,20 @@
+/**
+  coo
+  object.c
+  Purpose : Provide definitions of the sphere class and its methods
+
+  @author Kuntal Majumder ( zee at hellozee dot me )
+**/
+
 #include "sphere.h"
 
+/**
+ * @brief new_sphere creates a new sphere object returns the pointer to it
+ * @param pos
+ * @param rad
+ * @param col
+ * @return
+ */
 c_sphere *new_sphere(c_vector pos, double rad, c_material_rgb col)
 {
     c_sphere *s = malloc(sizeof (c_sphere));
@@ -10,6 +25,12 @@ c_sphere *new_sphere(c_vector pos, double rad, c_material_rgb col)
     return s;
 }
 
+/**
+ * @brief sphere_normal_at calculates the normal at the point over the given sphere
+ * @param point
+ * @param sphere
+ * @return
+ */
 c_vector
 sphere_normal_at(c_vector point, c_sphere *sphere)
 {
@@ -18,6 +39,13 @@ sphere_normal_at(c_vector point, c_sphere *sphere)
     return normal;
 }
 
+/**
+ * @brief sphere_find_intersection calculates whethere the ray intersects with
+ * the sphere or not
+ * @param ray
+ * @param sphere
+ * @return
+ */
 double
 sphere_find_intersection(c_ray ray, c_sphere *sphere)
 {

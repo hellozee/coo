@@ -1,3 +1,10 @@
+/**
+  coo
+  object.c
+  Purpose : Provide prototype of the sphere class and its methods
+
+  @author Kuntal Majumder ( zee at hellozee dot me )
+**/
 #ifndef COO_SPHERE_H
 #define COO_SPHERE_H
 

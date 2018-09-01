@@ -1,3 +1,11 @@
+/**
+  coo
+  object.c
+  Purpose : Provide prototype of the object class and its methods
+
+  @author Kuntal Majumder ( zee at hellozee dot me )
+**/
+
 #ifndef COO_OBJECT_H
 #define COO_OBJECT_H
 
@@ -8,6 +16,9 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+/**
+ * @brief The c_object_type enum useful for determining the type of the child objects
+ */
 enum c_object_type{
     sphere = 0,
     plane
