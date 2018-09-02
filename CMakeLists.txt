@@ -5,10 +5,24 @@ set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib )
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )
 set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib )
 
-set( LIBRARY_TYPE SHARED)
+set( LIBRARY_TYPE STATIC)
 
 if ( CMAKE_COMPILER_IS_GNUCC )
     set(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -Wall -Wextra")
+endif()
+
+if( "${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+    if ("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
+      # using clang
+      set(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -Weverything")
+    elseif ("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
+      # using gcc
+      set(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -Wall -Wextra")
+    elseif ("${CMAKE_C_COMPILER_ID}" STREQUAL "Intel")
+      # using intel c compiler
+    elseif ("${CMAKE_C_COMPILER_ID}" STREQUAL "MSVC")
+      # using visual studio c compiler
+    endif()
 endif()
 
 set( CAMERA_INCLUDE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/camera )
@@ -57,4 +71,3 @@ target_link_libraries(
     coo_camera
     coo_mesh
 )
-
