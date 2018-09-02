@@ -1,0 +1,13 @@
+language: c
+compiler: clang
+
+addons:
+  apt:
+    packages:
+      - cmake
+
+script:
+  - mkdir build
+  - cd build
+  - cmake ..
+  - make -j$(nproc)
