@@ -42,49 +42,90 @@ new_material_rgb_color(double red, double green, double blue, double spec)
     return col;
 }
 
+/**
+ * @brief color_brightness returns the grayscaled version of the current color
+ * @param col
+ * @return
+ */
 double
 color_brightness(c_material_rgb col)
 {
     return (col.color.b + col.color.g + col.color.r)/3;
 }
 
-double cap_value(double val)
+/**
+ * @brief cap_value keeps the color values from overflowing or underflowing
+ * @param col
+ * @return
+ */
+c_material_rgb
+cap_value(c_material_rgb col)
 {
-    if (val > 1){
-        return 1;
-    }
-    if(val < 0){
-        return 0;
-    }
-    return val;
+    if(col.color.r > 1) col.color.r = 1;
+    if(col.color.g > 1) col.color.g = 1;
+    if(col.color.b > 1) col.color.b = 1;
+    if(col.specular > 1) col.specular = 1;
+    if(col.color.r < 0) col.color.r = 0;
+    if(col.color.g < 0) col.color.g = 0;
+    if(col.color.b < 0) col.color.b = 0;
+    if(col.specular < 0) col.specular = 0;
+    return col;
 }
 
+/**
+ * @brief color_multiply_scalar multiplies the color with a scalar factor
+ * @param factor
+ * @param col
+ * @return
+ */
 c_material_rgb
 color_multiply_scalar(double factor, c_material_rgb col)
 {
-    return new_material_rgb_color(cap_value(col.color.r * factor),
-                                  cap_value(col.color.g * factor),
-                                  cap_value(col.color.b * factor) ,col.specular);
+    c_material_rgb return_color = new_material_rgb_color(col.color.r * factor,
+                                                         col.color.g * factor,
+                                                         col.color.b * factor ,
+                                                         col.specular);
+    return cap_value(return_color);
 }
 
+/**
+ * @brief color_add adds 2 colors
+ * @param c1
+ * @param c2
+ * @return
+ */
 c_material_rgb
 color_add(c_material_rgb c1, c_material_rgb c2)
 {
-    return new_material_rgb_color(cap_value(c1.color.r + c2.color.r),
-                                  cap_value(c1.color.g + c2.color.g),
-                                  cap_value(c1.color.b + c2.color.b) ,
-                                  cap_value(c1.specular + c2.specular));
+    c_material_rgb return_color = new_material_rgb_color(c1.color.r + c2.color.r,
+                                                         c1.color.g + c2.color.g,
+                                                         c1.color.b + c2.color.b ,
+                                                         c1.specular + c2.specular);
+    return cap_value(return_color);
 }
 
+/**
+ * @brief color_multipy multiplies 2 colors
+ * @param c1
+ * @param c2
+ * @return
+ */
 c_material_rgb
 color_multipy(c_material_rgb c1, c_material_rgb c2)
 {
-    return new_material_rgb_color(cap_value(c1.color.r * c2.color.r),
-                                  cap_value(c1.color.g * c2.color.g),
-                                  cap_value(c1.color.b * c2.color.b),
-                                  cap_value(c1.specular * c2.specular));
+    c_material_rgb return_color = new_material_rgb_color(c1.color.r * c2.color.r,
+                                                         c1.color.g * c2.color.g,
+                                                         c1.color.b * c2.color.b,
+                                                         c1.specular * c2.specular);
+    return cap_value(return_color);
 }
 
+/**
+ * @brief color_average returns the average of 2 colors
+ * @param c1
+ * @param c2
+ * @return
+ */
 c_material_rgb
 color_average(c_material_rgb c1, c_material_rgb c2)
 {
