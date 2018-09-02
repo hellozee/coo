@@ -61,6 +61,15 @@ color_brightness(c_material_rgb col)
 c_material_rgb
 cap_value(c_material_rgb col)
 {
+    double sum = col.color.r + col.color.g + col.color.b;
+    double excess_light = sum - 3;
+
+    if(excess_light > 0){
+        col.color.r += excess_light * col.color.r / sum;
+        col.color.b += excess_light * col.color.b / sum;
+        col.color.g += excess_light * col.color.g / sum;
+    }
+
     if(col.color.r > 1) col.color.r = 1;
     if(col.color.g > 1) col.color.g = 1;
     if(col.color.b > 1) col.color.b = 1;

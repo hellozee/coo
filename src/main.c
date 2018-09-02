@@ -10,7 +10,7 @@ main()
     unsigned int width = 640;
 
     //creating a new camera for our scene
-    c_vector camera_position = new_vector(3,1.5,-2);
+    c_vector camera_position = new_vector(3,1.5,-4);
     c_vector look_at = new_vector(0,0,0);
     c_vector diff_btw = new_vector(camera_position.x - look_at.x,
                                    camera_position.y - look_at.y,

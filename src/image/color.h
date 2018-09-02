@@ -10,6 +10,9 @@
 #define COO_COLOR_H
 
 typedef struct{
+    union{
+        double val[3];
+    };
     double r,g,b;
 }c_rgb;
 
