@@ -59,17 +59,8 @@ color_brightness(c_material_rgb col)
  * @return
  */
 c_material_rgb
-cap_value(c_material_rgb col)
+color_cap_value(c_material_rgb col)
 {
-    double sum = col.color.r + col.color.g + col.color.b;
-    double excess_light = sum - 3;
-
-    if(excess_light > 0){
-        col.color.r += excess_light * col.color.r / sum;
-        col.color.b += excess_light * col.color.b / sum;
-        col.color.g += excess_light * col.color.g / sum;
-    }
-
     if(col.color.r > 1) col.color.r = 1;
     if(col.color.g > 1) col.color.g = 1;
     if(col.color.b > 1) col.color.b = 1;
@@ -94,7 +85,7 @@ color_multiply_scalar(double factor, c_material_rgb col)
                                                          col.color.g * factor,
                                                          col.color.b * factor ,
                                                          col.specular);
-    return cap_value(return_color);
+    return return_color;
 }
 
 /**
@@ -110,7 +101,7 @@ color_add(c_material_rgb c1, c_material_rgb c2)
                                                          c1.color.g + c2.color.g,
                                                          c1.color.b + c2.color.b ,
                                                          c1.specular + c2.specular);
-    return cap_value(return_color);
+    return return_color;
 }
 
 /**
@@ -126,7 +117,7 @@ color_multipy(c_material_rgb c1, c_material_rgb c2)
                                                          c1.color.g * c2.color.g,
                                                          c1.color.b * c2.color.b,
                                                          c1.specular * c2.specular);
-    return cap_value(return_color);
+    return return_color;
 }
 
 /**

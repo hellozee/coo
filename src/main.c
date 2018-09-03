@@ -6,8 +6,8 @@ main()
     printf("rendering..\n");
 
     int dpi = 72;
-    unsigned int height = 480;
-    unsigned int width = 640;
+    unsigned int height = 1080;
+    unsigned int width = 1920;
 
     //creating a new camera for our scene
     c_vector camera_position = new_vector(3,1.5,-4);

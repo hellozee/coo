@@ -85,108 +85,46 @@ index_of_first_intersection(double *intersections, unsigned int size)
  * @return
  */
 c_material_rgb
-calculate_color(c_vector i_pos, c_vector i_dir, int index, c_scene *scene)
+calculate_color(c_vector i_pos, c_vector i_dir, int index, c_scene *scene,
+                enum c_object_type *type)
 {
-    c_object *obj = (c_object*) scene->scene_objects[index];
-    c_material_rgb object_color;
     c_vector object_normal;
+    c_vector light_direction = vector_add(scene->scene_lights[0].position,
+            vector_negate(i_pos));
 
-    switch (obj->type) {
-    case plane:{
-        c_plane* p = (c_plane*) scene->scene_objects[index];
-        object_color = p->color;
-        object_normal = p->normal;
-        break;
-    }
+    double factor;
+
+    switch(type[index]) {
     case sphere:{
-        c_sphere* s = (c_sphere*) scene->scene_objects[index];
-        object_color = s->color;
+        c_sphere *s = (c_sphere*)scene->scene_objects[index];
         object_normal = sphere_normal_at(i_pos,s);
         break;
     }
+    case plane:{
+        c_plane *p = (c_plane*) scene->scene_objects[index];
+        object_normal = p->normal;
+        break;
+    }
     }
 
-    //some ambient lighting to begin with
-    c_material_rgb final_color = color_multiply_scalar(0.2, object_color);
+    factor = vector_dot_product(vector_normalize(light_direction),
+                                       vector_normalize(object_normal));
+    c_material_rgb final_color = color_multiply_scalar(factor,scene->scene_lights[0].color);
 
-    for(unsigned int i=0;i<scene->scene_light_count;i++){
-        c_vector light_direction = scene->scene_lights[i].position;
-        light_direction = vector_add(light_direction,vector_negate(i_pos));
-        light_direction = vector_normalize(light_direction);
-
-        double cosine_angle = vector_dot_product(object_normal, light_direction);
-
-        if(cosine_angle > 0){
-            //now we check for shadows
-            bool under_shadow = false;
-            c_vector lo_vector = scene->scene_lights[i].position;
-            lo_vector = vector_add(lo_vector,vector_negate(i_pos));
-            lo_vector = vector_normalize(lo_vector);
-
-            double mod_lo = vector_magnitude(lo_vector);
-            c_ray shadow_ray = new_ray(i_pos,lo_vector);
-
-            double secondary_intersections[scene->scene_object_count];
-
-            for(unsigned int j=0; j<scene->scene_object_count && !under_shadow; j++){
-                c_object *obj = (c_object*) scene->scene_objects[index];
-
-                switch (obj->type) {
-                case plane:{
-                    c_plane *p = (c_plane*) scene->scene_objects[index];
-                    secondary_intersections[j] = plane_find_intersection(shadow_ray,
-                                                                         p);
-                    break;
-                }
-                case sphere:{
-                    c_sphere *s = (c_sphere*) scene->scene_objects[index];
-                    secondary_intersections[j] = sphere_find_intersection(shadow_ray,
-                                                                          s);
-                    break;
-                }
-                }
-            }
-
-            for(unsigned int j=0; j<scene->scene_object_count; j++){
-                if(secondary_intersections[j] > EPSILON) {
-                    if(secondary_intersections[j] <= mod_lo){
-                        under_shadow = true;
-                    }
-                    break;
-                }
-            }
-
-            if(!under_shadow){
-                c_material_rgb temp_col = color_multiply_scalar(
-                                    cosine_angle,scene->scene_lights[i].color);
-                temp_col = color_multipy(temp_col,object_color);
-                final_color = color_add(final_color,temp_col);
-
-                if(object_color.specular > 0){
-                    double first_dot_product = vector_dot_product(object_normal,
-                                                            vector_negate(i_dir));
-                    c_vector first_scalar_product = vector_scalar_product(
-                                                first_dot_product, object_normal);
-                    c_vector first_sum = vector_add(first_scalar_product,i_dir);
-                    c_vector second_scalar_product = vector_scalar_product(2,first_sum);
-                    c_vector second_sum = vector_add(vector_negate(i_dir),
-                                                     second_scalar_product);
-                    c_vector reflection_direction = vector_normalize(second_sum);
-
-                    double specular = vector_dot_product(reflection_direction,
-                                                         lo_vector);
-
-                    if(specular>0){
-                        specular = pow(specular,10);
-                        specular = specular * object_color.specular;
-                        c_material_rgb col = color_multiply_scalar(
-                                            specular,scene->scene_lights[i].color);
-                        final_color = color_add(final_color,col);
-                    }
-                }
-            }
-        }
+    switch (type[index]) {
+    case plane:{
+        c_plane *p = (c_plane*) scene->scene_objects[index];
+        final_color = color_add(final_color,p->color);
+        break;
     }
+    case sphere:{
+        c_sphere *s = (c_sphere*) scene->scene_objects[index];
+        final_color = color_add(final_color,s->color);
+        break;
+    }
+    }
+    final_color = color_multiply_scalar(0.5,final_color);
+    final_color = color_cap_value(final_color);
     return final_color;
 }
 
@@ -204,8 +142,8 @@ render_scene(c_scene *scene)
     unsigned int height = scene->scene_camera.height;
     double aspect_ratio = (double) width/ (double) height;
     c_rgb *pixels = (c_rgb*) malloc(sizeof(c_rgb) * height * width);
-    c_vector object_normal;
-    enum c_object_type type[scene->scene_object_count];
+    enum c_object_type *types = (enum c_object_type*) malloc(
+                sizeof (enum c_object_type) * scene->scene_object_count);
 
     for(unsigned int i=0;i<width;i++){
         for(unsigned int j=0;j<height;j++){
@@ -241,13 +179,13 @@ render_scene(c_scene *scene)
                 case plane:{
                     c_plane *p = (c_plane*) scene->scene_objects[k];
                     intersections[k] = plane_find_intersection(camera_ray,p);
-                    type[k] = plane;
+                    types[k] = plane;
                     break;
                 }
                 case sphere:{
                     c_sphere *s = (c_sphere*) scene->scene_objects[k];
                     intersections[k] = sphere_find_intersection(camera_ray,s);
-                    type[k] = sphere;
+                    types[k] = sphere;
                     break;
                 }
                 }
@@ -260,38 +198,10 @@ render_scene(c_scene *scene)
                 c_vector intersection_position = vector_add(
                             scene->scene_camera.position, reflected_ray);
 
-                /*c_material_rgb col = calculate_color(intersection_position,
+                c_material_rgb col = calculate_color(intersection_position,
                                                      camera_ray_direction,
                                                      first_intersection,
-                                                     scene);*/
-                c_vector light_direction = vector_add(scene->scene_lights[0].position,
-                        vector_negate(intersection_position));
-
-                if(type[first_intersection] == sphere) {
-                    object_normal = sphere_normal_at(intersection_position,(c_sphere*)scene->scene_objects[first_intersection]);
-                }else{
-                    c_plane *p = (c_plane*) scene->scene_objects[first_intersection];
-                    object_normal = p->normal;
-                }
-
-                double factor = vector_dot_product(vector_normalize(light_direction),
-                                                   vector_normalize(object_normal));
-
-                c_material_rgb col = scene->scene_lights[0].color;
-
-                switch (type[first_intersection]) {
-                case plane:{
-                    c_plane *p = (c_plane*) scene->scene_objects[first_intersection];
-                    col = color_add(col,p->color);
-                    break;
-                }
-                case sphere:{
-                    c_sphere *s = (c_sphere*) scene->scene_objects[first_intersection];
-                    col = color_add(col,s->color);
-                    break;
-                }
-                }
-                col = color_multiply_scalar(factor,col);
+                                                     scene,types);
                 pixels[j*width + i] = col.color;
             }else{
                 pixels[j*width + i] = new_rgb_color(0,0,0);

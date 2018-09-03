@@ -10,9 +10,6 @@
 #define COO_COLOR_H
 
 typedef struct{
-    union{
-        double val[3];
-    };
     double r,g,b;
 }c_rgb;
 
@@ -30,6 +27,7 @@ static const c_material_rgb flat_black = {{0.0,0.0,0.0},0.0};
 c_material_rgb new_material_rgb_color(double red, double green, double blue,
                                       double spec);
 double color_brightness(c_material_rgb col);
+c_material_rgb color_cap_value(c_material_rgb col);
 c_material_rgb color_multiply_scalar(double factor, c_material_rgb col);
 c_material_rgb color_add(c_material_rgb c1, c_material_rgb c2);
 c_material_rgb color_multipy(c_material_rgb c1, c_material_rgb c2);
