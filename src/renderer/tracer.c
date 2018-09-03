@@ -106,6 +106,7 @@ calculate_color(c_vector i_pos, c_vector i_dir, int index, c_scene *scene)
     }
     }
 
+    //some ambient lighting to begin with
     c_material_rgb final_color = color_multiply_scalar(0.2, object_color);
 
     for(unsigned int i=0;i<scene->scene_light_count;i++){
@@ -147,8 +148,10 @@ calculate_color(c_vector i_pos, c_vector i_dir, int index, c_scene *scene)
             }
 
             for(unsigned int j=0; j<scene->scene_object_count; j++){
-                if(secondary_intersections[j] <= mod_lo){
-                    under_shadow = true;
+                if(secondary_intersections[j] > EPSILON) {
+                    if(secondary_intersections[j] <= mod_lo){
+                        under_shadow = true;
+                    }
                     break;
                 }
             }
@@ -201,6 +204,8 @@ render_scene(c_scene *scene)
     unsigned int height = scene->scene_camera.height;
     double aspect_ratio = (double) width/ (double) height;
     c_rgb *pixels = (c_rgb*) malloc(sizeof(c_rgb) * height * width);
+    c_vector object_normal;
+    enum c_object_type type[scene->scene_object_count];
 
     for(unsigned int i=0;i<width;i++){
         for(unsigned int j=0;j<height;j++){
@@ -236,11 +241,13 @@ render_scene(c_scene *scene)
                 case plane:{
                     c_plane *p = (c_plane*) scene->scene_objects[k];
                     intersections[k] = plane_find_intersection(camera_ray,p);
+                    type[k] = plane;
                     break;
                 }
                 case sphere:{
                     c_sphere *s = (c_sphere*) scene->scene_objects[k];
                     intersections[k] = sphere_find_intersection(camera_ray,s);
+                    type[k] = sphere;
                     break;
                 }
                 }
@@ -253,10 +260,38 @@ render_scene(c_scene *scene)
                 c_vector intersection_position = vector_add(
                             scene->scene_camera.position, reflected_ray);
 
-                c_material_rgb col = calculate_color(intersection_position,
+                /*c_material_rgb col = calculate_color(intersection_position,
                                                      camera_ray_direction,
                                                      first_intersection,
-                                                     scene);
+                                                     scene);*/
+                c_vector light_direction = vector_add(scene->scene_lights[0].position,
+                        vector_negate(intersection_position));
+
+                if(type[first_intersection] == sphere) {
+                    object_normal = sphere_normal_at(intersection_position,(c_sphere*)scene->scene_objects[first_intersection]);
+                }else{
+                    c_plane *p = (c_plane*) scene->scene_objects[first_intersection];
+                    object_normal = p->normal;
+                }
+
+                double factor = vector_dot_product(vector_normalize(light_direction),
+                                                   vector_normalize(object_normal));
+
+                c_material_rgb col = scene->scene_lights[0].color;
+
+                switch (type[first_intersection]) {
+                case plane:{
+                    c_plane *p = (c_plane*) scene->scene_objects[first_intersection];
+                    col = color_add(col,p->color);
+                    break;
+                }
+                case sphere:{
+                    c_sphere *s = (c_sphere*) scene->scene_objects[first_intersection];
+                    col = color_add(col,s->color);
+                    break;
+                }
+                }
+                col = color_multiply_scalar(factor,col);
                 pixels[j*width + i] = col.color;
             }else{
                 pixels[j*width + i] = new_rgb_color(0,0,0);
