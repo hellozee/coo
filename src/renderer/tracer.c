@@ -91,8 +91,34 @@ calculate_color(c_vector i_pos, c_vector i_dir, int index, c_scene *scene,
     c_vector object_normal;
     c_vector light_direction = vector_add(scene->scene_lights[0].position,
             vector_negate(i_pos));
+    double *intersections = malloc(sizeof (double) * scene->scene_object_count);
 
-    double factor;
+    c_ray light_ray = new_ray(i_pos,light_direction);
+    for(unsigned int k=0; k<scene->scene_object_count;k++){
+        if( (int) k == index ){
+            continue;
+        }
+        switch (type[k]) {
+        case plane:{
+            c_plane *p = (c_plane*) scene->scene_objects[k];
+            intersections[k] = plane_find_intersection(light_ray,p);
+            break;
+        }
+        case sphere:{
+            c_sphere *s = (c_sphere*) scene->scene_objects[k];
+            intersections[k] = sphere_find_intersection(light_ray,s);
+            break;
+        }
+        }
+    }
+
+    int first_intersection = index_of_first_intersection(intersections,
+                                            scene->scene_object_count);
+    double distance_to_light = vector_magnitude(light_direction);
+    if(intersections[first_intersection] <= distance_to_light &&
+            intersections[first_intersection] > EPSILON){
+        return flat_black;
+    }
 
     switch(type[index]) {
     case sphere:{
@@ -107,7 +133,7 @@ calculate_color(c_vector i_pos, c_vector i_dir, int index, c_scene *scene,
     }
     }
 
-    factor = vector_dot_product(vector_normalize(light_direction),
+    double factor = vector_dot_product(vector_normalize(light_direction),
                                        vector_normalize(object_normal));
     c_material_rgb final_color = color_multiply_scalar(factor,scene->scene_lights[0].color);
 
