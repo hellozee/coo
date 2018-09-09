@@ -1,5 +1,11 @@
 cmake_minimum_required(VERSION 3.0)
+
+set(VERSION_MAJOR "0")
+set(VERSION_MINOR "0")
+set(VERSION_PATCH "0")
+
 project(coo)
+
 set( CMAKE_BUILD_TYPE Debug)
 set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib )
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )
@@ -71,3 +77,11 @@ target_link_libraries(
     coo_camera
     coo_mesh
 )
+
+install(TARGETS coo DESTINATION bin)
+
+set(CPACK_PACKAGE_VERSION_MAJOR ${VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${VERSION_PATCH})
+set(CPACK_PACKAGE_CONTACT "zee@hellozee.me")
+include(CPack)
